@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package fileservice;
+
+service FileService {
+    rpc anadirArchivo (FileList) returns (Empty);
+    rpc buscarArchivo (FileRequest) returns (FileResponse);
+    rpc SubirArchivo (FileRequest) returns (OperationResponse);
+    rpc DescargarArchivo (FileRequest) returns (OperationResponse);
+}
+
+message FileList {
+    repeated string archivos = 1;
+}
+
+message FileRequest {
+    string nombre = 1;
+}
+
+message FileResponse {
+    string nombre = 1;
+    string enlace = 2;
+}
+
+message OperationResponse {
+    string mensaje = 1;
+}
+
+message Empty {}
