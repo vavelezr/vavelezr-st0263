@@ -57,6 +57,26 @@ app.get('/buscar', async (req, res) => {
         }
     }
 
+// Simula la subida de archivos al nodo
+app.post('/upload', (req, res) => {
+    const { nombre, url } = req.body;
+    archivos[nombre] = url;
+    console.log(`Archivo subido: ${nombre} en la URL: ${url}`);
+    res.status(200).send(`Archivo ${nombre} subido exitosamente.`);
+});
+
+// Simula la descarga de archivos desde el nodo
+app.get('/download', (req, res) => {
+    const { nombre } = req.query;
+    
+    if (archivos[nombre]) {
+        console.log(`Archivo descargado: ${nombre} desde la URL: ${archivos[nombre]}`);
+        res.status(200).send(`Descarga simulada del archivo ${nombre} desde la URL: ${archivos[nombre]}`);
+    } else {
+        res.status(404).send('Archivo no encontrado.');
+    }
+});
+
     // Si ningún supernodo lo tiene
     res.status(404).send('Archivo no encontrado.');
 });
