@@ -1,8 +1,6 @@
 # info de la materia: ST0263 - Topicos Especiales en Telematica
 #
-# Estudiante(s): 
-Vanessa Alexandra Velez Restrepo - vavelezr@eafit.edu.co
-Luis Miguel Giraldo Gonzalez - lmgiraldo4@eafit.edu.co
+# Estudiante(s): Vanessa Alexandra Velez Restrepo - vavelezr@eafit.edu.co    Luis Miguel Giraldo Gonzalez - lmgiraldo4@eafit.edu.co
 #
 # Profesor: Alvaro Enrique Ospina Sanjuan - aeospinas@eafit.edu.co
 #
@@ -91,10 +89,8 @@ SUPER_NODES=localhost:3010,localhost:3020
 
 ## opcionalmente - si quiere mostrar resultados o pantallazos 
 
-# 5. otra información que considere relevante para esta actividad.
-
 # referencias:
 
-## [sitio1-url ](https://www.fiorano.com/assets/pdf/whitepaper/superpeer.pdf)
+## [Superpeers ](https://www.fiorano.com/assets/pdf/whitepaper/superpeer.pdf)
 ## sitio2-url
-## url de donde tomo info para desarrollar este proyecto
+
