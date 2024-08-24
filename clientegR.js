@@ -91,8 +91,26 @@ function descargarArchivoCliente(nombreArchivo) {
     });
 }
 
-// Ejemplo de uso de las funciones
-function main() {
+async function descubrirNodos() {
+    try {
+        const response = await axios.get(`http://${supernodos[0]}/descubrir`); // Contacta el primer superpeer para obtener la lista de nodos
+        return response.data.nodos || [];
+    } catch (error) {
+        console.error(`Error al descubrir otros nodos: ${error.message}`);
+        return [];
+    }
+}
+
+
+async function main() {
+    const nodosConocidos = await descubrirNodos();
+    
+    if (nodosConocidos.length > 0) {
+        console.log('Nodos conocidos:', nodosConocidos);
+        // Aquí puedes implementar lógica adicional para conectarte a estos nodos directamente
+    } else {
+        console.log('No se descubrieron nodos adicionales.');
+    }
     // Añade los archivos que quieres registrar
     const archivosParaAgregar = ['archivo1.txt', 'archivo2.txt'];
     agregarArchivosCliente(archivosParaAgregar);

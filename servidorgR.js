@@ -77,7 +77,29 @@ function descargarArchivo(solicitud, respuesta) {
     respuesta(null, { mensaje: 'Descarga de archivo simulada correctamente' });
 }
 
-function main() {
+// Función para descubrir otros nodos regulares a través de un superpeer
+async function descubrirNodos() {
+    try {
+        const response = await axios.get(`http://${supernodos[0]}/descubrir`); // Contacta el primer superpeer para obtener la lista de nodos
+        return response.data.nodos || [];
+    } catch (error) {
+        console.error(`Error al descubrir otros nodos: ${error.message}`);
+        return [];
+    }
+}
+
+
+
+
+async function main() {
+    const nodosConocidos = await descubrirNodos();
+    
+    if (nodosConocidos.length > 0) {
+        console.log('Nodos conocidos:', nodosConocidos);
+        // Aquí puedes implementar lógica adicional para conectarte a estos nodos directamente
+    } else {
+        console.log('No se descubrieron nodos adicionales.');
+    }
     const servidorRPC = new grpc.Server();
     servidorRPC.addService(esquemaServicio.FileService.service, {
         anadirArchivo,

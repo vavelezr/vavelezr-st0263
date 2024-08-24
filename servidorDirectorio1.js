@@ -26,17 +26,26 @@ app.post('/register', (req, res) => {
     res.status(200).send('Archivos registrados en el supernodo.');
 });
 
-// Sincronización entre supernodos
+// Sincronización entre supernodos - propaga esta información a otros superpeers en la red
 app.post('/sync', (req, res) => {
     const { archivos: archivosNuevos, url } = req.body;
     archivosNuevos.forEach(archivo => {
         archivos[archivo] = url;
     });
     console.log(`Archivos sincronizados desde ${url}:`, archivosNuevos);
+
+    // Propagar la sincronización a otros supernodos, si no son el origen
+    supernodos.forEach(supernodo => {
+        if (supernodo !== req.hostname + ':' + req.socket.localPort && supernodo !== url) {
+            axios.post(`http://${supernodo}/sync`, { archivos: archivosNuevos, url })
+                .catch(err => console.error(`Error propagando sincronización a supernodo ${supernodo}:`, err.message));
+        }
+    });
+
     res.status(200).send('Sincronización completa.');
 });
 
-// Buscar archivo en el supernodo
+// Buscar archivo en el supernodo - Extendido
 app.get('/buscar', async (req, res) => {
     const { nombre } = req.query;
 
@@ -57,6 +66,23 @@ app.get('/buscar', async (req, res) => {
         }
     }
 
+    // Propagar la búsqueda a otros supernodos si no se encuentra en ninguno de los conocidos
+    for (let supernodo of supernodos) {
+        if (supernodo !== req.hostname + ':' + req.socket.localPort) {
+            try {
+                const response = await axios.get(`http://${supernodo}/buscar`, { params: { nombre } });
+                if (response.data.url) {
+                    return res.status(200).send(response.data);
+                }
+            } catch (err) {
+                console.error(`Error propagando búsqueda en supernodo ${supernodo}:`, err.message);
+            }
+        }
+    }
+
+    res.status(404).send('Archivo no encontrado.');
+});
+
 // Simula la subida de archivos al nodo
 app.post('/upload', (req, res) => {
     const { nombre, url } = req.body;
@@ -75,10 +101,6 @@ app.get('/download', (req, res) => {
     } else {
         res.status(404).send('Archivo no encontrado.');
     }
-});
-
-    // Si ningún supernodo lo tiene
-    res.status(404).send('Archivo no encontrado.');
 });
 
 app.listen(3020, () => {
