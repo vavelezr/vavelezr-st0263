@@ -64,14 +64,22 @@ Las principales librerías y paquetes utilizados en el proyecto son:
 
 
 ## como se compila y ejecuta.
-## detalles del desarrollo.
-## detalles técnicos
-## descripción y como se configura los parámetros del proyecto (ej: ip, puertos, conexión a bases de datos, variables de ambiente, parámetros, etc)
-## opcional - detalles de la organización del código por carpetas o descripción de algún archivo. (ESTRUCTURA DE DIRECTORIOS Y ARCHIVOS IMPORTANTE DEL PROYECTO, comando 'tree' de linux)
+
+## Detalles del desarrollo y tecnicos.
+
+El desarrollo del proyecto se centró en crear un sistema distribuido que permita la compartición de archivos a través de una red P2P. El enfoque principal fue asegurar que cada nodo pueda actuar tanto como servidor como cliente, utilizando superpeers para gestionar la información centralizada de archivos. Las funciones clave como registrar, buscar, subir y descargar archivos fueron implementadas utilizando gRPC y Express.js para garantizar la eficiencia y la escalabilidad del sistema.
+
+## Descripción y como se configura los parámetros del proyecto (ej: ip, puertos, conexión a bases de datos, variables de ambiente, parámetros, etc)
+PATH_PROTO=./protos/file.proto      # Ruta al archivo .proto utilizado por gRPC
+REMOTE_HOST=localhost:50051         # Dirección y puerto del nodo remoto al que se conecta el cliente
+HOST=0.0.0.0:50051                  # IP y puerto en los que el servidor escucha
+SUPER_NODES=localhost:3010,localhost:3020
+
+
 ## 
-## opcionalmente - si quiere mostrar resultados o pantallazos 
 
 # 4. Descripción del ambiente de EJECUCIÓN (en producción) lenguaje de programación, librerias, paquetes, etc, con sus numeros de versiones.
+
 
 # IP o nombres de dominio en nube o en la máquina servidor.
 
@@ -86,7 +94,7 @@ Las principales librerías y paquetes utilizados en el proyecto son:
 # 5. otra información que considere relevante para esta actividad.
 
 # referencias:
-<debemos siempre reconocer los créditos de partes del código que reutilizaremos, así como referencias a youtube, o referencias bibliográficas utilizadas para desarrollar el proyecto o la actividad>
-## sitio1-url 
+
+## [sitio1-url ](https://www.fiorano.com/assets/pdf/whitepaper/superpeer.pdf)
 ## sitio2-url
 ## url de donde tomo info para desarrollar este proyecto
