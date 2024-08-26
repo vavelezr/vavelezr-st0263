@@ -5,6 +5,12 @@ app.use(express.json());
 
 let archivos = {}; // Diccionario donde las llaves son los nombres de archivos y los valores son las URLs de los nodos
 let supernodos = ['localhost:3020']; // Lista de otros supernodos en la red
+let ultimoHashSync = '';
+
+// Función para calcular un hash simple de un objeto
+function calcularHash(obj) {
+    return JSON.stringify(obj);
+}
 
 // Registrar archivos en el supernodo
 app.post('/register', (req, res) => {
@@ -29,9 +35,18 @@ app.post('/register', (req, res) => {
 // Sincronización entre supernodos - propaga esta información a otros superpeers en la red
 app.post('/sync', (req, res) => {
     const { archivos: archivosNuevos, url } = req.body;
+    const nuevoHashSync = calcularHash(archivosNuevos);
+
+    if (nuevoHashSync === ultimoHashSync) {
+        console.log('Sin cambios desde la última sincronización, no se necesita propagación.');
+        return res.status(200).send('Sincronización completa, sin cambios.');
+    }
+
     archivosNuevos.forEach(archivo => {
         archivos[archivo] = url;
     });
+    ultimoHashSync = nuevoHashSync;
+
     console.log(`Archivos sincronizados desde ${url}:`, archivosNuevos);
 
     // Propagar la sincronización a otros supernodos, si no son el origen
@@ -62,21 +77,6 @@ app.get('/buscar', async (req, res) => {
             }
         } catch (err) {
             console.error(`Error buscando en supernodo ${supernodo}:`, err.message);
-            // No enviamos respuesta aquí; continuamos con el siguiente supernodo
-        }
-    }
-
-    // Propagar la búsqueda a otros supernodos si no se encuentra en ninguno de los conocidos
-    for (let supernodo of supernodos) {
-        if (supernodo !== req.hostname + ':' + req.socket.localPort) {
-            try {
-                const response = await axios.get(`http://${supernodo}/buscar`, { params: { nombre } });
-                if (response.data.url) {
-                    return res.status(200).send(response.data);
-                }
-            } catch (err) {
-                console.error(`Error propagando búsqueda en supernodo ${supernodo}:`, err.message);
-            }
         }
     }
 
@@ -103,6 +103,6 @@ app.get('/download', (req, res) => {
     }
 });
 
-app.listen(3010, () => {
-    console.log('Supernodo escuchando en el puerto 3010');
+app.listen(3020, () => {
+    console.log('Supernodo escuchando en el puerto 3020');
 });
