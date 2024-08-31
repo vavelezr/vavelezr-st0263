@@ -1,14 +1,15 @@
-# info de la materia: ST0263 - Topicos Especiales en Telematica
+# Info de la materia: ST0263 - Topicos Especiales en Telematica
 #
 # Estudiante(s): Vanessa Alexandra Velez Restrepo - vavelezr@eafit.edu.co    Luis Miguel Giraldo Gonzalez - lmgiraldo4@eafit.edu.co
 #
 # Profesor: Alvaro Enrique Ospina Sanjuan - aeospinas@eafit.edu.co
 #
 # Arquitectura P2P y Comunicación entre procesos mediante API REST, RPC y MOM
-#
+![Supernodo 3010 (1)](https://github.com/user-attachments/assets/272f4894-37e9-458d-a5dd-752bdf9d6540)
+
 # 1. Descripción de la actividad
-#
-Este proyecto implementa un sistema P2P (Peer-to-Peer) donde cada nodo o peer actúa como un microservicio capaz de compartir archivos en una red distribuida y descentralizada. El sistema está diseñado utilizando una red P2P estructurada, donde los peers pueden conectarse entre sí y registrar, buscar, subir y descargar archivos simulados. Se utilizan tecnologías como gRPC, REST para la comunicación entre procesos y la gestión de los microservicios.
+
+Este proyecto implementa un sistema P2P (Peer-to-Peer) donde cada nodo o peer actúa como un microservicio capaz de compartir archivos en una red distribuida y descentralizada. El sistema está diseñado utilizando una red P2P  estructurada, donde los peers pueden conectarse entre sí y registrar, buscar, subir y descargar archivos simulados. Se utilizan tecnologías como gRPC, REST para la comunicación entre procesos y la gestión de los microservicios.
 
 ## 1.1. Que aspectos cumplió o desarrolló de la actividad propuesta por el profesor (requerimientos funcionales y no funcionales)
 ### Requerimientos Funcionales
@@ -61,7 +62,7 @@ Las principales librerías y paquetes utilizados en el proyecto son:
 - **Axios** (`axios`): v1.4.0 (Cliente HTTP para la comunicación entre nodos y supernodos)
 
 
-## como se compila y ejecuta.
+## Como se compila y ejecuta.
 
 ## Detalles del desarrollo y tecnicos.
 
@@ -69,27 +70,41 @@ El desarrollo del proyecto se centró en crear un sistema distribuido que permit
 
 ## Descripción y como se configura los parámetros del proyecto (ej: ip, puertos, conexión a bases de datos, variables de ambiente, parámetros, etc)
 PATH_PROTO=./protos/file.proto      # Ruta al archivo .proto utilizado por gRPC
-REMOTE_HOST=localhost:50051         # Dirección y puerto del nodo remoto al que se conecta el cliente
-HOST=0.0.0.0:50051                  # IP y puerto en los que el servidor escucha
-SUPER_NODES=localhost:3010,localhost:3020
+REMOTE_HOST=54.225.93.41:5051         # Dirección y puerto del nodo remoto al que se conecta el cliente
+HOST=0.0.0.0:5051                  # IP y puerto en los que el servidor escucha
+SUPER_NODES=50.16.112.214:3010,34.234.178.153:3020
 
 
 ## 
 
 # 4. Descripción del ambiente de EJECUCIÓN (en producción) lenguaje de programación, librerias, paquetes, etc, con sus numeros de versiones.
 
-
 # IP o nombres de dominio en nube o en la máquina servidor.
+Supernodo con puerto 3010: 50.16.112.214
+Supernodo con puerto 3020: 34.234.178.153
+Server gRPC con puerto 5051: 54.225.93.41
+Server Cliente-Server con puerto 80: 3.95.142.226
 
-## descripción y como se configura los parámetros del proyecto (ej: ip, puertos, conexión a bases de datos, variables de ambiente, parámetros, etc)
+## Descripción y como se configura los parámetros del proyecto (ej: ip, puertos, conexión a bases de datos, variables de ambiente, parámetros, etc)
+Los parametros del proyecto se configuraron con 4 instancias las cuales están detalladas en el literal anterior. 
 
-## como se lanza el servidor.
+## Como se lanza el servidor.
 
-## una mini guia de como un usuario utilizaría el software o la aplicación
 
-## opcionalmente - si quiere mostrar resultados o pantallazos 
+## Una mini guia de como un usuario utilizaría el software o la aplicación
+1. Inicializamos las 4 instancias mediante Ec2 en AWS
+2. Nos paramos en las 4 instancias en la carpeta madre del proyecto "vavelezr-st0263"
+3. Corremos el siguiente comando "sudo docker compose up" donde el contenedor creado en esa instancia arranca con su servicio, por favor arrancarlo en el siguiente orden.
+   -Supernodo 3010
+   -Supernodo 3020
+   -Servidor gRPC 5051
+   -Cliente-Server con puerto 80
+      
+5. Para detener la instancia solo basta con ejecutar control+c
 
-# referencias:
+## Pantallazos 
+
+# Referencias:
 
 ## [Superpeers ](https://www.fiorano.com/assets/pdf/whitepaper/superpeer.pdf)
 ## sitio2-url
