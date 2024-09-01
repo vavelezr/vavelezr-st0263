@@ -104,23 +104,26 @@ async function descubrirNodos() {
 
 async function main() {
     const nodosConocidos = await descubrirNodos();
-    
+
     if (nodosConocidos.length > 0) {
         console.log('Nodos conocidos:', nodosConocidos);
-        // Aquí puedes implementar lógica adicional para conectarte a estos nodos directamente
     } else {
         console.log('No se descubrieron nodos adicionales.');
     }
-    // Añade los archivos que quieres registrar
-    const archivosParaAgregar = ['archivo1.txt', 'archivo2.txt'];
-    agregarArchivosCliente(archivosParaAgregar);
 
-    // Luego busca uno de esos archivos
-    const archivoABuscar = 'archivo1.txt';
-    buscarYDescargarArchivo(archivoABuscar);
+    const archivosParaAgregar = ['archivo1.txt', 'archivo2.txt', 'archivo3.txt'];
 
-    subirArchivoCliente('archivo3.txt'); // Simular subida de un archivo
-    descargarArchivoCliente('archivo1.txt'); // Simular descarga de un archivo
+    // Prueba de concurrencia 
+    await Promise.all([
+        agregarArchivosCliente(archivosParaAgregar),  
+        buscarYDescargarArchivo('archivo1.txt'),      
+        subirArchivoCliente('archivo4.txt'),          
+        descargarArchivoCliente('archivo2.txt')       
+    ]).then(() => {
+        console.log('Todas las operaciones se completaron exitosamente.');
+    }).catch((error) => {
+        console.error('Ocurrió un error durante la ejecución concurrente:', error.message);
+    });
 }
 
 main();
