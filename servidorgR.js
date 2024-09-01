@@ -24,6 +24,7 @@ let listaDeArchivos = [];
 // Registrar los archivos disponibles en el servidor de directorio
 function registrarArchivos() {
     const url = `localhost:5051`;
+    //const url = `54.225.93.41:5051`;
     console.log('Intentando registrar los siguientes archivos:', listaDeArchivos);
     
     supernodos.forEach((supernodo) => {

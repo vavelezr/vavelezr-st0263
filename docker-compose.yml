@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  servidordirectorio:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${HOST_PORT:-3020}:3020"
+    environment:
+      - HOST=${HOST}
+      - SUPER_NODES=${SUPER_NODES}
+    networks:
+      - p2p_network
+
+
+networks:
+  p2p_network:
+    driver: bridge
