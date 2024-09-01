@@ -4,7 +4,7 @@
 #
 # Profesor: Alvaro Enrique Ospina Sanjuan - aeospinas@eafit.edu.co
 #
-# Arquitectura P2P y Comunicación entre procesos mediante API REST, RPC y MOM
+# Arquitectura P2P no estructurada y Comunicación entre procesos mediante API REST, RPC y MOM
 ![Supernodo 3010 (1)](https://github.com/user-attachments/assets/272f4894-37e9-458d-a5dd-752bdf9d6540)
 
 # 1. Descripción de la actividad
@@ -32,16 +32,27 @@ Este proyecto implementa un sistema P2P (Peer-to-Peer) donde cada nodo o peer ac
 1. **Concurrencia**:
    - Los microservicios soportan concurrencia, permitiendo que múltiples procesos remotos se comuniquen con un nodo de manera simultánea.
 
-2. **(ACTUALIZAAR!!!!)Despliegue en AWS**:
-   - 
+2. **Disponibilidad**:
+   - Desplegar los nodos en múltiples zonas de disponibilidad para evitar puntos únicos de fallo y mejorar la resiliencia del sistema.
+     
+3. **Rendimiento**:
+   - El sistema debe manejar múltiples solicitudes simultáneas sin un impacto significativo en el rendimiento.
+     
+4.**Seguridad**:
+   -Garantizar que los datos no sean alterados durante la transmisión entre nodos.   
 
+5.**Mantenibilidad**
+   -La configuración de los nodos debe ser fácilmente ajustable y manejable.
+
+6.**Costos**
+   -El sistema debe ser diseñado para minimizar el uso de recursos y costos operativos, especialmente en entornos en la nube
 
 ## 1.2. Que aspectos NO cumplió o desarrolló de la actividad propuesta por el profesor (requerimientos funcionales y no funcionales)
+   -Se priorizó la efectividad y rapidez en la transmisión de mensajes en la red, por lo que no se implementó MOM. Esta decisión se tomó para evitar la latencia adicional que introduce MOM al almacenar los mensajes en una cola antes de enviarlos, asegurando así que las comunicaciones entre nodos sean directas y en tiempo real.
 
 
-
-# 2. información general de diseño de alto nivel, arquitectura, patrones, mejores prácticas utilizadas.
-El proyecto está diseñado con una arquitectura distribuida basada en una red P2P (Peer-to-Peer) no estructurada. Cada nodo en la red puede actuar como servidor y cliente, interactuando entre sí para compartir y sincronizar archivos de manera descentralizada. La red se apoya en superpeers, que tienen la responsabilidad de gestionar y sincronizar la información de archivos entre los nodos conectados. Estos superpeers están implementados utilizando **Express.js** para manejar solicitudes HTTP, lo que incluye operaciones de registro, sincronización y búsqueda de archivos. Esta arquitectura permite mantener la consistencia en la red al propagar la información a los otros superpeers
+# 2. Información general de diseño de alto nivel, arquitectura, patrones, mejores prácticas utilizadas.
+El proyecto está diseñado con una arquitectura distribuida basada en una red P2P (Peer-to-Peer) no estructurada. Cada nodo en la red puede actuar como servidor y cliente, interactuando entre sí para compartir y sincronizar archivos de manera descentralizada. La red se apoya en superpeers, que tienen la responsabilidad de gestionar y sincronizar la información de archivos entre los nodos conectados. Estos superpeers están implementados utilizando **Express.js** para manejar solicitudes HTTP através de API rest, lo que incluye operaciones de registro, sincronización y búsqueda de archivos. Esta arquitectura permite mantener la consistencia en la red al propagar la información a los otros superpeers
 
 Los nodos regulares utilizan **gRPC** para la comunicación RPC, lo que les permite registrar archivos en los superpeers, buscar archivos en la red y simular la transferencia de archivos. gRPC facilita una comunicación eficiente entre los componentes de la red, soportando múltiples tipos de datos y llamadas simultáneas. Además, los nodos actúan tanto como servidores, respondiendo a solicitudes RPC de otros nodos, como clientes, iniciando estas solicitudes.
 
@@ -60,9 +71,6 @@ Las principales librerías y paquetes utilizados en el proyecto son:
 - **Express.js** (`express`): v4.18.2 (Utilizado para implementar los supernodos)
 - **dotenv** (`dotenv`): v16.0.3 (Para la gestión de variables de entorno)
 - **Axios** (`axios`): v1.4.0 (Cliente HTTP para la comunicación entre nodos y supernodos)
-
-
-## Como se compila y ejecuta.
 
 ## Detalles del desarrollo y tecnicos.
 
@@ -124,5 +132,7 @@ Debe estar mostrando una imagen como la siguiente (para los puertos 3010-3020)<b
 # Referencias:
 
 ## [Superpeers ](https://www.fiorano.com/assets/pdf/whitepaper/superpeer.pdf)
-## sitio2-url
+## [Superpeers](https://www.geeksforgeeks.org/super-nodes-in-peer-to-peer-networks/)
+## [P2P no estructurada](https://link.springer.com/referenceworkentry/10.1007/978-1-4614-6439-3_7035)
+
 
